@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-    A script to enumerate AD groups and members and populate an IT Glue configuration.
+    A script to enumerate AD groups and members and populate an IT Glue Flexible Asset.
 
 .DESCRIPTION
-    Generate graphed report for all Active Directory objects.
+    Generate report for all Active Directory objects.
 
 .PARAMETER APIKey
     API Key Obtained from IT Glue in Account->Settings->API Keys
@@ -14,7 +14,7 @@
 .NOTES
     Script Originally Created by CyberDrain- Kelvin Tegelaar
     Modified By: Noaxxess
-    Added: Parametrs, comments, formatting, logic to check if group member are users or computers, function to match configs and tag
+    Added: Parameters, comments, formatting, logic to check if group member are users or computers, function to match configs and tag
     Date: 04/25/2023
 
 #>
