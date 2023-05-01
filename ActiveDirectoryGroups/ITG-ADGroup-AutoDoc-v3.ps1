@@ -31,11 +31,11 @@ param (
 
 #Check if ITGlueAPI Module Exists. If not, install/import it
 if (Get-Module -ListAvailable -Name "ITGlueAPI") {
-    Import-Module ITGlueAPI
+    Import-Module 'ITGlueAPI'
 }
 else {
-    Install-Module ITGlueAPI -Force
-    Import-Module ITGlueAPI
+    Install-Module 'ITGlueAPI' -Force
+    Import-Module 'ITGlueAPI'
 }
 
 #Check if ActiveDirectory module is present. If not install/import it.
@@ -80,7 +80,7 @@ function Get-ITGlueFlexAssetID {
 $APIEndpoint = "https://api.itglue.com"
 $FlexAssetName = "AutoDoc- Active Directory Groups v3"
 $Description = "Lists all groups and users in them."
-$ITGlueConfigs = (Get-ITGlueConfigurations -organization_id $OrgID).data
+
 
 
 #####################################################################
@@ -89,8 +89,6 @@ $ITGlueConfigs = (Get-ITGlueConfigurations -organization_id $OrgID).data
 # Set IT-Glue logon information
 Add-ITGlueBaseURI -base_uri $APIEndpoint
 Add-ITGlueAPIKey $APIKey
-
-# Write-Host $ITGlueConfigs.id
 
 # Checking if the FlexibleAsset Type exists.
 $FilterID = (Get-ITGlueFlexibleAssetTypes -filter_name $FlexAssetName).data
@@ -173,6 +171,9 @@ if (!$FilterID) {
 
 #Get Existing Assets from IT Glue
 $ITGlueFlexAssets = (Get-ITGlueFlexibleAssets -filter_flexible_asset_type_id $Filterid.id -filter_organization_id $orgID).data
+
+#Get Existing Configurations fro IT GLue 
+$ITGlueConfigs = (Get-ITGlueConfigurations -organization_id $OrgID).data
 
 # Get all AD Groups
 $AllGroups = Get-AdGroup -filter *
