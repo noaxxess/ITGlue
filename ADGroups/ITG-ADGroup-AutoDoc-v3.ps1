@@ -76,6 +76,14 @@ else {
     Import-Module ITGlueAPI
 }
 
+if (Get-Module -ListAvailable -Name "ActiveDirectory") {
+    Import-Module 'ActiveDirectory'
+}
+else {
+    Install-Module Import-Module 'ActiveDirectory' -Force
+    Import-Module Import-Module 'ActiveDirectory'
+}
+
 # Set IT-Glue logon information
 Add-ITGlueBaseURI -base_uri $APIEndpoint
 Add-ITGlueAPIKey $APIKey
