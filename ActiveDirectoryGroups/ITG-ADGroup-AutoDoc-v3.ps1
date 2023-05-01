@@ -64,14 +64,15 @@ function Get-ITGlueConfigurationID {
 }
 
 function Get-ITGlueFlexAssetID {
-    param (    
-        [string]$AssetName,
-        [array]$FlexAssets
+    param ( 
+        [Object[]]$FlexAssets,   
+        [string]$AssetName
     )
 
-    foreach ($Asset in $FlexAssets) {
-        if ($AssetName -eq $Name) {
-            return $Asset.Id
+    foreach ($FlexAsset in $FlexAssets) {
+        $FlexAssetName = $FlexAsset.attributes.traits.'group-name'
+        if ($FlexAssetName -eq $($AssetName)) {
+            return $FlexAsset.id
         }
     }
 }
@@ -183,7 +184,8 @@ foreach ($Group in $AllGroups) {
     
     #Set Arrays for Asset Tags
     $Contacts = @()
-    $Configs = @()    
+    $Configs = @()
+    $ExistingFlexAsset = ''    
     
     #Get Group Members
     $Members = Get-AdGroupMember $Group
@@ -233,7 +235,6 @@ foreach ($Group in $AllGroups) {
     # Get Existing ITGlue Flex Asset Data (if any) and match existing AD group data
     $ExistingFlexAsset = Get-ITGlueFlexAssetID -FlexAssets $ITGlueFlexAssets -AssetName $($group.name) 
 
-
     # If the Asset does not exist, we edit the body to be in the form of a new asset
     if (!$ExistingFlexAsset) {
         # Write-Host "Creating new flexible asset"
@@ -243,8 +244,6 @@ foreach ($Group in $AllGroups) {
     }
     #Otherwise Just Upload the data
     else {
-        # Write-Host "Updating flexible asset"
-        $ExistingFlexAsset = $ExistingFlexAsset[-1]
-        Set-ITGlueFlexibleAssets -id $ExistingFlexAsset.id -data $FlexAssetBody
-    }
+        Set-ITGlueFlexibleAssets -id $ExistingFlexAsset -data $FlexAssetBody
+    }    
 }
