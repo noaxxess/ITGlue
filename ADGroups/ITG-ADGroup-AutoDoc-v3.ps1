@@ -33,8 +33,6 @@ param (
 $APIEndpoint = "https://api.itglue.com"
 $FlexAssetName = "AutoDoc- Active Directory Groups v3"
 $Description = "Lists all groups and users in them."
-$ITGlueConfigs = (Get-ITGlueConfigurations -organization_id $OrgID).data
-
 
 #####################################################################
 
@@ -168,7 +166,8 @@ if (!$FilterID) {
     $FilterID = (Get-ITGlueFlexibleAssetTypes -filter_name $FlexAssetName).data
 }
 
-#Write-Host $filterID.id
+#Get Existing ITGlue Configurations
+$ITGlueConfigs = (Get-ITGlueConfigurations -organization_id $OrgID).data
 
 #Get Existing Assets from IT Glue
 $ITGlueFlexAssets = (Get-ITGlueFlexibleAssets -filter_flexible_asset_type_id $Filterid.id -filter_organization_id $orgID).data
