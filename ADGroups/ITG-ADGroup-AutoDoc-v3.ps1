@@ -29,35 +29,6 @@ param (
     [String]$OrgID
 )
 
-#Function to return IT Glue Configuration IDs based on Names
-function Get-ITGlueConfigurationID {
-    param (
-        [string]$Name,
-        [array]$Configurations
-    )
-
-    foreach ($config in $Configurations) {
-        #If your tenant uses FQDN instead of HostNames use the this line to split on period and get the hostname.
-        $ConfigName = ($Config.attributes.Name).Split('.')[0]
-        if ($ConfigName -eq $Name) {
-            return $Config.Id
-        }
-    }
-}
-
-function Get-ITGlueFlexAssetID {
-    param (    
-        [string]$AssetName,
-        [array]$FlexAssets
-    )
-
-    foreach ($Asset in $FlexAssets) {
-        if ($AssetName -eq $Name) {
-            return $Asset.Id
-        }
-    }
-}
-
 #Set Variables
 $APIEndpoint = "https://api.itglue.com"
 $FlexAssetName = "AutoDoc- Active Directory Groups v3"
@@ -84,11 +55,41 @@ else {
     Import-Module Import-Module 'ActiveDirectory'
 }
 
+
+#Function to return IT Glue Configuration IDs based on Names
+function Get-ITGlueConfigurationID {
+    param (
+        [string]$Name,
+        [array]$Configurations
+    )
+
+    foreach ($config in $Configurations) {
+        #If your tenant uses FQDN instead of HostNames use the this line to split on period and get the hostname.
+        $ConfigName = ($Config.attributes.Name).Split('.')[0]
+        if ($ConfigName -eq $Name) {
+            return $Config.Id
+        }
+    }
+}
+
+#Function to return IT Glue AD Group Flex Assets IDs based on Group Name
+function Get-ITGlueFlexAssetID {
+    param ( 
+        [Object[]]$FlexAssets,   
+        [string]$AssetName
+    )
+
+    foreach ($FlexAsset in $FlexAssets) {
+        $FlexAssetName = $FlexAsset.attributes.traits.'group-name'
+        if ($FlexAssetName -eq $($AssetName)) {
+            return $FlexAsset.id
+        }
+    }
+}
+
 # Set IT-Glue logon information
 Add-ITGlueBaseURI -base_uri $APIEndpoint
 Add-ITGlueAPIKey $APIKey
-
-# Write-Host $ITGlueConfigs.id
 
 # Checking if the FlexibleAsset Type exists.
 $FilterID = (Get-ITGlueFlexibleAssetTypes -filter_name $FlexAssetName).data
@@ -233,15 +234,12 @@ foreach ($Group in $AllGroups) {
 
     # If the Asset does not exist, we edit the body to be in the form of a new asset
     if (!$ExistingFlexAsset) {
-        # Write-Host "Creating new flexible asset"
         $FlexAssetBody.attributes.add('organization-id', $orgID)
         $FlexAssetBody.attributes.add('flexible-asset-type-id', $FilterID.id)
         New-ITGlueFlexibleAssets -data $FlexAssetBody 
     }
     #Otherwise Just Upload the data
     else {
-        # Write-Host "Updating flexible asset"
-        $ExistingFlexAsset = $ExistingFlexAsset[-1]
         Set-ITGlueFlexibleAssets -id $ExistingFlexAsset.id -data $FlexAssetBody
     }
 }
