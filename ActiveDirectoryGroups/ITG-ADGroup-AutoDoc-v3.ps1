@@ -29,6 +29,24 @@ param (
     [String]$OrgID
 )
 
+#Check if ITGlueAPI Module Exists. If not, install/import it
+if (Get-Module -ListAvailable -Name "ITGlueAPI") {
+    Import-Module ITGlueAPI
+}
+else {
+    Install-Module ITGlueAPI -Force
+    Import-Module ITGlueAPI
+}
+
+#Check if ActiveDirectory module is present. If not install/import it.
+if (Get-Module -ListAvailable -Name "ActiveDirectory") {
+    Import-Module 'ActiveDirectory'
+}
+else {
+    Install-Module Import-Module 'ActiveDirectory' -Force
+    Import-Module Import-Module 'ActiveDirectory'
+}
+
 #Function to return IT Glue Configuration IDs based on Names
 function Get-ITGlueConfigurationID {
     param (
@@ -67,14 +85,6 @@ $ITGlueConfigs = (Get-ITGlueConfigurations -organization_id $OrgID).data
 
 #####################################################################
 
-#Check if ITGlueAPI Module Exists, if not, install/import it
-if (Get-Module -ListAvailable -Name "ITGlueAPI") {
-    Import-Module ITGlueAPI
-}
-else {
-    Install-Module ITGlueAPI -Force
-    Import-Module ITGlueAPI
-}
 
 # Set IT-Glue logon information
 Add-ITGlueBaseURI -base_uri $APIEndpoint
