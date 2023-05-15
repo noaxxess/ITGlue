@@ -168,8 +168,6 @@ if (!$FilterID) {
     $FilterID = (Get-ITGlueFlexibleAssetTypes -filter_name $FlexAssetName).data
 }
 
-#Write-Host $filterID.id
-
 #Get Existing Assets from IT Glue
 $ITGlueFlexAssets = (Get-ITGlueFlexibleAssets -filter_flexible_asset_type_id $Filterid.id -filter_organization_id $orgID -page_size 1000).data
 
