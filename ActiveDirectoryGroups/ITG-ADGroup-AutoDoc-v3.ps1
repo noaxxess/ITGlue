@@ -174,7 +174,7 @@ if (!$FilterID) {
 $ITGlueFlexAssets = (Get-ITGlueFlexibleAssets -filter_flexible_asset_type_id $Filterid.id -filter_organization_id $orgID).data
 
 #Get Existing Configurations fro IT GLue 
-$ITGlueConfigs = (Get-ITGlueConfigurations -organization_id $OrgID -pagesize 1000).data
+$ITGlueConfigs = (Get-ITGlueConfigurations -organization_id $OrgID -page_size 1000).data
 
 # Get all AD Groups
 $AllGroups = Get-AdGroup -filter *
