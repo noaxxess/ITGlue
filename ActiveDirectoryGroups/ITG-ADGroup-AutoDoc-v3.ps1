@@ -171,7 +171,7 @@ if (!$FilterID) {
 #Write-Host $filterID.id
 
 #Get Existing Assets from IT Glue
-$ITGlueFlexAssets = (Get-ITGlueFlexibleAssets -filter_flexible_asset_type_id $Filterid.id -filter_organization_id $orgID).data
+$ITGlueFlexAssets = (Get-ITGlueFlexibleAssets -filter_flexible_asset_type_id $Filterid.id -filter_organization_id $orgID -page_size 1000).data
 
 #Get Existing Configurations fro IT GLue 
 $ITGlueConfigs = (Get-ITGlueConfigurations -organization_id $OrgID -page_size 1000).data
@@ -203,7 +203,7 @@ foreach ($Group in $AllGroups) {
             $Email = (Get-AdUser $Member -Properties EmailAddress).EmailAddress
             #If user exists in IT Glue, add it to Contacts array 
             if ($Email) {
-                $Contacts += (Get-ITGlueContacts -organization_id $OrgID -filter_primary_email $Email).data.id
+                $Contacts += (Get-ITGlueContacts -organization_id $OrgID -filter_primary_email $Email -page_size 1000).data.id
             }
         }
         #Check if Member is a Computer
