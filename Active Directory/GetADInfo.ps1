@@ -1,7 +1,7 @@
 #Parameters
 param(
-    [string]$APIKey;
-    [string]
+    [string]$APIKey,
+    [string]$OrgID
 )
 
 #Retrieve IT Glue Configurations
@@ -101,3 +101,4 @@ if($currentADFlexAssets.data.attributes.traits.${api_DomainName}) {
 
         $api__output_data.data
     }
+}

@@ -171,10 +171,10 @@ if (!$FilterID) {
 #Write-Host $filterID.id
 
 #Get Existing Assets from IT Glue
-$ITGlueFlexAssets = (Get-ITGlueFlexibleAssets -filter_flexible_asset_type_id $Filterid.id -filter_organization_id $orgID).data
+$ITGlueFlexAssets = (Get-ITGlueFlexibleAssets -filter_flexible_asset_type_id $Filterid.id -filter_organization_id $orgID -pagesize 1000).data
 
 #Get Existing Configurations fro IT GLue 
-$ITGlueConfigs = (Get-ITGlueConfigurations -organization_id $OrgID).data
+$ITGlueConfigs = (Get-ITGlueConfigurations -organization_id $OrgID -pagesize 1000).data
 
 # Get all AD Groups
 $AllGroups = Get-AdGroup -filter *
@@ -213,7 +213,7 @@ foreach ($Group in $AllGroups) {
             #Check if the computer name exists
             if ($ComputerName) {
                 #Get id using name and array of configurations from IT Glue, if there is a match add the ID to the Configs array
-                $Configs += Get-ITGlueConfigurationID -Name $ComputerName -Configurations $ITGlueConfigs
+                $Configs += Get-ITGlueConfigurationID -Name $ComputerName -Configurations $ITGlueConfigs 
             }     
         }
     }
