@@ -42,7 +42,6 @@ if (Get-Module -ListAvailable -Name "ITGlueAPI") {
 }
 else {
     Install-Module ITGlueAPI -Force
-    Import-Module ITGlueAPI
 }
 
 if (Get-Module -ListAvailable -Name "ActiveDirectory") {
