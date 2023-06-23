@@ -37,11 +37,8 @@ $Description = "Lists all groups and users in them."
 #####################################################################
 
 #Check if ITGlueAPI Module Exists, if not, install/import it
-if (Get-Module -ListAvailable -Name "ITGlueAPI") {
-    Import-Module ITGlueAPI
-}
-else {
-    Install-Module ITGlueAPI -Force
+if (!(Get-Module -ListAvailable -Name "ITGlueAPI")) {
+     Install-Module ITGlueAPI -Force
 }
 
 if (Get-Module -ListAvailable -Name "ActiveDirectory") {
