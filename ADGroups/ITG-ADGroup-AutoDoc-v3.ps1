@@ -84,6 +84,9 @@ else {
     Import-Module Import-Module 'ActiveDirectory'
 }
 
+#Set TLS to 1.2
+[System.Net.ServicePointManager]::SecurityProtocol = 'TLS12'
+
 # Set IT-Glue logon information
 Add-ITGlueBaseURI -base_uri $APIEndpoint
 Add-ITGlueAPIKey $APIKey
