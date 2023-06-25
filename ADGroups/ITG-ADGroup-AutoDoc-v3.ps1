@@ -68,12 +68,8 @@ $ITGlueConfigs = (Get-ITGlueConfigurations -organization_id $OrgID).data
 #####################################################################
 
 #Check if ITGlueAPI Module Exists, if not, install/import it
-if (Get-Module -ListAvailable -Name "ITGlueAPI") {
-    Import-Module ITGlueAPI
-}
-else {
+if (!(Get-Module -ListAvailable -Name "ITGlueAPI")) {
     Install-Module ITGlueAPI -Force
-    Import-Module ITGlueAPI
 }
 
 if (Get-Module -ListAvailable -Name "ActiveDirectory") {
