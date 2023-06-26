@@ -30,7 +30,7 @@ param (
 )
 
 #Check if ITGlueAPI Module Exists. If not, install/import it
-if (Get-Module -ListAvailable -Name "ITGlueAPI") {
+if (!(Get-Module -ListAvailable -Name "ITGlueAPI")) {
     Install-Module 'ITGlueAPI' -Force
 }
 
