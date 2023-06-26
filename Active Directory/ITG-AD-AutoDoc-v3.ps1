@@ -31,7 +31,7 @@ param (
 
 #Check if ITGlueAPI Module Exists. If not, install/import it
 if (!(Get-Module -ListAvailable -Name "ITGlueAPI")) {
-    Install-Module 'ITGlueAPI' -Force
+    Install-Module 'ITGlueAPI' -Confirm:$false -Force
 }
 
 #Check if ActiveDirectory module is present. If not install/import it.
