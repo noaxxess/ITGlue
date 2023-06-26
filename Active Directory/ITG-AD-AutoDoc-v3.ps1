@@ -31,11 +31,7 @@ param (
 
 #Check if ITGlueAPI Module Exists. If not, install/import it
 if (Get-Module -ListAvailable -Name "ITGlueAPI") {
-    Import-Module 'ITGlueAPI'
-}
-else {
     Install-Module 'ITGlueAPI' -Force
-    Import-Module 'ITGlueAPI'
 }
 
 #Check if ActiveDirectory module is present. If not install/import it.
@@ -86,6 +82,8 @@ $Description = "Lists all groups and users in them."
 
 #####################################################################
 
+#Set TLS to 1.2
+[System.Net.ServicePointManager]::SecurityProtocol = 'TLS12'
 
 # Set IT-Glue logon information
 Add-ITGlueBaseURI -base_uri $APIEndpoint
